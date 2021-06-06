@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+
+    <h:form id="form">
+        <p:panelGrid id="boardPanel" style="margin-top:20px;margin-bottom: 20px;width: 100%">
+            <f:facet name="header">
+                <p:row>
+                    <p:column colspan="8">MANCALA BOARD GAME</p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="1" style="text-align: left">
+                        Player 1
+                    </p:column>
+                    <p:column colspan="7">
+                        <p:spacer height="0"/>
+                    </p:column>
+                </p:row>
+            </f:facet>
+
+            <p:row>
+                <p:column rowspan="2" style="font-weight: bold;text-align: center">
+                    <p:outputLabel value="#{mancalaController.stonesOnBoard.get(16)}"/>
+                </p:column>
+
+                <p:column style="font-weight: bold;text-align: center">
+                    <p:commandLink value="#{mancalaController.stonesOnBoard.get(15)}" action="#{mancalaController.getStonesFromThePit(15)}"/>
+                </p:column>
+                <p:column style="font-weight: bold;text-align: center">
+                    <p:commandLink value="#{mancalaController.stonesOnBoard.get(14)}" action="#{mancalaController.getStonesFromThePit(14)}"/>
+                </p:column>
+                <p:column style="font-weight: bold;text-align: center">
+                    <p:commandLink value="#{mancalaController.stonesOnBoard.get(13)}" action="#{mancalaController.getStonesFromThePit(13)}"/>
+                </p:column>
+                <p:column style="font-weight: bold;text-align: center">
+                    <p:commandLink value="#{mancalaController.stonesOnBoard.get(12)}" action="#{mancalaController.getStonesFromThePit(12)}"/>
+                </p:column>
+                <p:column style="font-weight: bold;text-align: center">
+                    <p:commandLink value="#{mancalaController.stonesOnBoard.get(11)}" action="#{mancalaController.getStonesFromThePit(11)}"/>
+                </p:column>
+                <p:column style="font-weight: bold;text-align: center">
+                    <p:commandLink value="#{mancalaController.stonesOnBoard.get(10)}" action="#{mancalaController.getStonesFromThePit(10)}"/>
+                </p:column>
+
+                <p:column rowspan="2" style="font-weight: bold;text-align: center">
+                    <p:outputLabel value="#{mancalaController.stonesOnBoard.get(26)}"/>
+                </p:column>
+            </p:row>
+
+            <p:row>
+                <p:column style="font-weight: bold;text-align: center">
+                    <p:commandLink value="#{mancalaController.stonesOnBoard.get(20)}" action="#{mancalaController.getStonesFromThePit(20)}"/>
+                </p:column>
+                <p:column style="font-weight: bold;text-align: center">
+                    <p:commandLink value="#{mancalaController.stonesOnBoard.get(21)}" action="#{mancalaController.getStonesFromThePit(21)}"/>
+                </p:column>
+                <p:column style="font-weight: bold;text-align: center">
+                    <p:commandLink value="#{mancalaController.stonesOnBoard.get(22)}" action="#{mancalaController.getStonesFromThePit(22)}"/>
+                </p:column>
+                <p:column style="font-weight: bold;text-align: center">
+                    <p:commandLink value="#{mancalaController.stonesOnBoard.get(23)}" action="#{mancalaController.getStonesFromThePit(23)}"/>
+                </p:column>
+                <p:column style="font-weight: bold;text-align: center">
+                    <p:commandLink value="#{mancalaController.stonesOnBoard.get(24)}" action="#{mancalaController.getStonesFromThePit(24)}"/>
+                </p:column>
+                <p:column style="font-weight: bold;text-align: center">
+                    <p:commandLink value="#{mancalaController.stonesOnBoard.get(25)}" action="#{mancalaController.getStonesFromThePit(25)}" />
+                </p:column>
+            </p:row>
+
+
+
+            <f:facet name="footer">
+                <p:row>
+                    <p:column colspan="7">
+                        <p:spacer height="0"/>
+                    </p:column>
+                    <p:column colspan="1" style="text-align: right">
+                        Player 2
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="8" style="text-align: left">
+                        Player #{mancalaController.turn}'s turn
+                    </p:column>
+                </p:row>
+            </f:facet>
+        </p:panelGrid>
+
+
+    </h:form>
+
+    <h:form id="dialogFrm">
+        <p:dialog widgetVar="winnerDlg" modal="true" id="winnerDlg"
+                  draggable="false" resizable="false" showEffect="fade"
+                  hideEffect="fade">
+            <p:panelGrid columns="1">
+                <f:facet name="header">
+                    <p:row style="font-weight: bold" rendered="#{mancalaController.result != 0}">
+                        Winner is Player #{mancalaController.result == 1 ? '1' : '2'}!
+                    </p:row>
+                    <p:row style="font-weight: bold" rendered="#{mancalaController.result == 0}">
+                        Deuce!
+                    </p:row>
+                </f:facet>
+                <p:row style="font-weight: bold">
+                    Play again?
+                </p:row>
+                <p:row>
+                    <p:column colspan="2">
+                        <p:commandButton value="Yes" onclick="PF('winnerDlg').hide();" action="#{mancalaController.playAgain()}"/>
+                        <p:commandButton value="No" onclick="PF('winnerDlg').hide();"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </p:dialog>
+
+        <p:dialog widgetVar="warnDlg" modal="true" id="warnDlg"
+                  draggable="false" resizable="false" showEffect="fade"
+                  hideEffect="fade">
+            <p:panelGrid columns="1">
+                <f:facet name="header">
+                    <p:row style="font-weight: bold">
+                        #{mancalaController.errMsg}
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:commandButton value="OK" onclick="PF('warnDlg').hide();"/>
+                </p:row>
+            </p:panelGrid>
+        </p:dialog>
+
+        <p:dialog widgetVar="unhandledWarnDlg" modal="true" id="unhandledWarnDlg"
+                  draggable="false" resizable="false" showEffect="fade"
+                  hideEffect="fade">
+            <p:panelGrid columns="1">
+                <f:facet name="header">
+                    <p:row style="font-weight: bold">
+                        There is an unhandled exception!
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:commandButton value="OK" onclick="PF('unhandledWarnDlg').hide();"/>
+                </p:row>
+            </p:panelGrid>
+        </p:dialog>
+    </h:form>
+
+</h:body>
+</html>
